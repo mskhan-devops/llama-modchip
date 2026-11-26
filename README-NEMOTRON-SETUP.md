@@ -108,3 +108,56 @@ MODCHIP_EXTRA_ARGS="-ngl 99" ./modchip start /home/mskhan/LLMs/LFM2.5-24B-A2B-Q4
 
 
 ```
+
+## Using an already-downloaded model
+
+### Case A — model is in the preset's expected folder
+
+Expected file:
+```
+/home/mskhan/llama-modchip/workspace/models/NVIDIA-Nemotron-3.5-30B-A3B-MaxQ-16GB.gguf
+```
+
+Run the same command:
+
+```bash
+cd /home/mskhan/llama-modchip
+./install.sh --preset nemotron-maxq-16gb --prebuilt --yes
+```
+
+The installer verifies size (`14,382,336,640` bytes) and SHA-256 (`26b884d7…587db67`). If valid, it skips the download. If invalid, it deletes and re-downloads the file.
+
+If only a partial `.part` file exists, the same command **resumes** it with `curl -C -`:
+
+```bash
+cd /home/mskhan/llama-modchip
+./install.sh --preset nemotron-maxq-16gb --prebuilt --yes
+```
+
+### Case B — model is somewhere else (for example `/home/mskhan/LLMs/`)
+
+Use `--model` and omit `--preset`:
+
+```bash
+cd /home/mskhan/llama-modchip
+./install.sh --model /full/path/to/NVIDIA-Nemotron-3.5-30B-A3B-MaxQ-16GB.gguf --prebuilt --yes
+```
+
+`--model` takes precedence over `--preset`. If both are passed, the explicit path still wins, but the preset may print irrelevant warnings — so leave `--preset` out.
+
+### Verification differences
+
+| Mode | What is checked |
+|---|---|
+| `--preset nemotron-maxq-16gb` | Exact official byte size + SHA-256; resumes `.part` files |
+| `--model <path>` | Only that the file exists; no SHA check |
+
+`--prebuilt` re-downloads the small verified engine binary on every run, even when the model is already present. This is normal.
+
+### After the install
+
+```bash
+cd /home/mskhan/llama-modchip
+./modchip start
+./modchip chat
+```
