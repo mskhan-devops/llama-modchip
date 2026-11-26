@@ -69,3 +69,42 @@ cd /home/mskhan/llama-modchip
 ```
 
 Only delete `workspace/llama.cpp` manually if the git clone itself is corrupted.
+
+## CUDA build (RTX 4050 Laptop / sm_89)
+
+Rebuild with the GPU architecture pinned to 89 so nvcc does not try `-arch=native`:
+
+```bash
+cd /home/mskhan/llama-modchip
+
+rm -rf workspace/llama.cpp/build
+
+cmake -S workspace/llama.cpp -B workspace/llama.cpp/build \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DLLAMA_BUILD_NUMBER=12604 \
+  -DGGML_CUDA=ON \
+  -DGGML_NATIVE=OFF \
+  -DGGML_AVX2=ON -DGGML_FMA=ON -DGGML_F16C=ON -DGGML_BMI2=ON \
+  -DGGML_AVX512=OFF -DGGML_AVX512_VBMI=OFF -DGGML_AVX512_VNNI=OFF \
+  -DGGML_OPENMP=ON \
+  "-DCMAKE_C_FLAGS=-march=haswell -mno-avx512f" \
+  "-DCMAKE_CXX_FLAGS=-march=haswell -mno-avx512f" \
+  -DCMAKE_CUDA_ARCHITECTURES=89
+
+cmake --build workspace/llama.cpp/build -j8 \
+  --target llama-server llama-cli llama-bench llama-perplexity llama-quantize
+
+cp workspace/llama.cpp/build/bin/llama-server workspace/bin/llama-server-nemotron
+export LD_LIBRARY_PATH=/home/mskhan/llama-modchip/workspace/llama.cpp/build/bin:$LD_LIBRARY_PATH
+
+workspace/bin/llama-server-nemotron --version | grep -i cuda
+workspace/bin/llama-server-nemotron --list-devices
+
+MODCHIP_EXTRA_ARGS="-ngl 99" ./modchip start /home/mskhan/LLMs/NeoHorse-1-4B-Q5_K_M.gguf
+
+MODCHIP_EXTRA_ARGS="-ngl 99" ./modchip start /home/mskhan/LLMs/Qwen3.6-28B-REAP20-A3B-Q4_K_S.gguf
+
+MODCHIP_EXTRA_ARGS="-ngl 99" ./modchip start /home/mskhan/LLMs/LFM2.5-24B-A2B-Q4_K_M.gguf
+
+
+```
