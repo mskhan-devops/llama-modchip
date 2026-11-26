@@ -1,0 +1,1075 @@
+{
+  "schema": "llama-modchip-v3.1.1-cold-cgroup-dsv4",
+  "timestamp_utc": "2026-11-20T20:50:03Z",
+  "model_label": "DeepSeek-V4-Flash-0731-MaxQ-v4",
+  "model_path": "DeepSeek-V4-Flash-0731-MaxQ-v4-00001-of-00003.gguf",
+  "server_args_common": [
+    "-c",
+    "32768",
+    "-np",
+    "1",
+    "-t",
+    "16",
+    "-tb",
+    "16",
+    "-ub",
+    "512",
+    "-b",
+    "2048",
+    "-fa",
+    "on",
+    "-ctk",
+    "q8_0",
+    "-ctv",
+    "q8_0",
+    "--cpu-range",
+    "16-31",
+    "--cpu-strict",
+    "1",
+    "--cpu-range-batch",
+    "16-31",
+    "--cpu-strict-batch",
+    "1",
+    "--jinja",
+    "RC_TABLES_DIR=/nonexistent",
+    "sampling=greedy_t0_topk1_seed42"
+  ],
+  "cgroup_v2_policy": {
+    "MemoryAccounting": "yes",
+    "MemoryMax": "60.0 GiB (64,424,509,440 B)",
+    "MemorySwapMax": "0",
+    "host_drop_caches": "sync && echo 3 > /proc/sys/vm/drop_caches on hypervisor before each scope + POSIX_FADV_DONTNEED on GGUF shards",
+    "cold_server_restart_per_rep": true
+  },
+  "host_hardware": {
+    "lscpu": {
+      "Architecture": "x86_64",
+      "CPU(s)": "32",
+      "Model name": "AMD Ryzen 9 9955HX 16-Core Processor",
+      "Thread(s) per core": "2",
+      "Core(s) per socket": "16",
+      "Socket(s)": "1",
+      "L1d cache": "768 KiB (16 instances)",
+      "L2 cache": "16 MiB (16 instances)",
+      "L3 cache": "64 MiB (2 instances)"
+    },
+    "meminfo_kb": {
+      "MemTotal": 77594624,
+      "MemFree": 17126116,
+      "MemAvailable": 77243043,
+      "Buffers": 0,
+      "Cached": 60265112,
+      "SwapTotal": 0,
+      "SwapFree": 0
+    },
+    "mem_total_gib": 74.0,
+    "mem_available_gib": 73.66,
+    "cached_gib_at_start": 57.47,
+    "swap_total_gib": 0.0,
+    "free_h": "total        used        free      shared  buff/cache   available\nMem:            74Gi       343Mi        16Gi       286Mi        57Gi        73Gi\nSwap:             0B          0B          0B",
+    "nvidia_smi": {
+      "rc": 127,
+      "stdout": "",
+      "stderr": "bash: line 1: nvidia-smi: command not found"
+    },
+    "gpu_count": 0
+  },
+  "configs": {
+    "config3_routecrack2": {
+      "config_name": "config3_routecrack2",
+      "spec_args": [
+        "--spec-type",
+        "routecrack2",
+        "--draft-max",
+        "5"
+      ],
+      "n_reps": 3,
+      "independent_cold_restarts": true,
+      "host_drop_caches_before_each_rep": true,
+      "aggregate_tok_per_s_summary": {
+        "n": 3,
+        "values": [
+          9.0499,
+          8.5913,
+          8.9861
+        ],
+        "mean": 8.8758,
+        "sd": 0.2484,
+        "t_crit_95": 4.3027,
+        "ci95_half": 0.6171,
+        "min": 8.5913,
+        "max": 9.0499
+      },
+      "max_vmhwm_gib": 59.7329,
+      "max_cgroup_memory_peak_gib": 60.0,
+      "max_cgroup_swap_peak_bytes": 0,
+      "total_oom_kills": 0,
+      "per_rep_memory": [
+        {
+          "rep": 1,
+          "cached_gib_before_load": 0.3,
+          "load_time_s": 37.57,
+          "process_memory": {
+            "vmhwm_kb": 62634532,
+            "vmhwm_gib": 59.7329,
+            "vmrss_kb": 61693748,
+            "vmrss_gib": 58.8357,
+            "rssanon_kb": 2792692,
+            "rssanon_gib": 2.6633,
+            "rssfile_kb": 58901056,
+            "rssfile_gib": 56.1724,
+            "rssshmem_kb": 0,
+            "rssshmem_gib": 0.0,
+            "vmswap_kb": 0,
+            "vmswap_gib": 0.0
+          },
+          "cgroup_v2": {
+            "cgroup_path": "/system.slice/run-r9521d69391fa4514810977556e0039e1.scope",
+            "memory_max": 64424509440,
+            "memory_max_gib": 60.0,
+            "memory_peak": 64424509440,
+            "memory_peak_gib": 60.0,
+            "memory_current": 64333377536,
+            "memory_current_gib": 59.9151,
+            "memory_swap_max": 0,
+            "memory_swap_max_gib": 0.0,
+            "memory_swap_peak": 0,
+            "memory_swap_peak_gib": 0.0,
+            "memory_events": {
+              "low": 0,
+              "high": 0,
+              "max": 30,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "memory_stat": {
+              "anon": 2872475648,
+              "file": 61186211840,
+              "file_mapped": 60313513984,
+              "inactive_file": 42417188864,
+              "active_file": 18768318464,
+              "workingset_refault_file": 2802001,
+              "pgscan": 5623298,
+              "pgsteal": 3069509,
+              "pgfault": 15763799,
+              "pgmajfault": 15217744,
+              "anon_gib": 2.6752,
+              "file_gib": 56.9841,
+              "file_mapped_gib": 56.1713
+            }
+          }
+        },
+        {
+          "rep": 2,
+          "cached_gib_before_load": 0.3,
+          "load_time_s": 42.63,
+          "process_memory": {
+            "vmhwm_kb": 62631648,
+            "vmhwm_gib": 59.7302,
+            "vmrss_kb": 60348424,
+            "vmrss_gib": 57.5527,
+            "rssanon_kb": 2791240,
+            "rssanon_gib": 2.6619,
+            "rssfile_kb": 57557184,
+            "rssfile_gib": 54.8908,
+            "rssshmem_kb": 0,
+            "rssshmem_gib": 0.0,
+            "vmswap_kb": 0,
+            "vmswap_gib": 0.0
+          },
+          "cgroup_v2": {
+            "cgroup_path": "/system.slice/run-r476ffeb8b9e6452db98607e588e1049e.scope",
+            "memory_max": 64424509440,
+            "memory_max_gib": 60.0,
+            "memory_peak": 64424509440,
+            "memory_peak_gib": 60.0,
+            "memory_current": 64182743040,
+            "memory_current_gib": 59.7748,
+            "memory_swap_max": 0,
+            "memory_swap_max_gib": 0.0,
+            "memory_swap_peak": 0,
+            "memory_swap_peak_gib": 0.0,
+            "memory_events": {
+              "low": 0,
+              "high": 0,
+              "max": 64,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "memory_stat": {
+              "anon": 2871009280,
+              "file": 61035483136,
+              "file_mapped": 58937417728,
+              "inactive_file": 56901656576,
+              "active_file": 4132888576,
+              "workingset_refault_file": 7866506,
+              "pgscan": 22616493,
+              "pgsteal": 8170815,
+              "pgfault": 16436862,
+              "pgmajfault": 15255149,
+              "anon_gib": 2.6738,
+              "file_gib": 56.8437,
+              "file_mapped_gib": 54.8897
+            }
+          }
+        },
+        {
+          "rep": 3,
+          "cached_gib_before_load": 0.3,
+          "load_time_s": 38.09,
+          "process_memory": {
+            "vmhwm_kb": 62633492,
+            "vmhwm_gib": 59.732,
+            "vmrss_kb": 60844456,
+            "vmrss_gib": 58.0258,
+            "rssanon_kb": 2791304,
+            "rssanon_gib": 2.662,
+            "rssfile_kb": 58053152,
+            "rssfile_gib": 55.3638,
+            "rssshmem_kb": 0,
+            "rssshmem_gib": 0.0,
+            "vmswap_kb": 0,
+            "vmswap_gib": 0.0
+          },
+          "cgroup_v2": {
+            "cgroup_path": "/system.slice/run-rb0ee848326ec4dcd95776a77b937dde8.scope",
+            "memory_max": 64424509440,
+            "memory_max_gib": 60.0,
+            "memory_peak": 64424509440,
+            "memory_peak_gib": 60.0,
+            "memory_current": 64222621696,
+            "memory_current_gib": 59.812,
+            "memory_swap_max": 0,
+            "memory_swap_max_gib": 0.0,
+            "memory_swap_peak": 0,
+            "memory_swap_peak_gib": 0.0,
+            "memory_events": {
+              "low": 0,
+              "high": 0,
+              "max": 33,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "memory_stat": {
+              "anon": 2871070720,
+              "file": 61077037056,
+              "file_mapped": 59445239808,
+              "inactive_file": 33062113280,
+              "active_file": 28013850624,
+              "workingset_refault_file": 3223944,
+              "pgscan": 8506571,
+              "pgsteal": 3518106,
+              "pgfault": 15781121,
+              "pgmajfault": 15226867,
+              "anon_gib": 2.6739,
+              "file_gib": 56.8824,
+              "file_mapped_gib": 55.3627
+            }
+          }
+        }
+      ],
+      "workloads": {
+        "w1_claude_refactor": {
+          "title": "1. Claude Code Python Refactoring (152-LOC File in Context)",
+          "tok_per_s_summary": {
+            "n": 3,
+            "values": [
+              16.2359,
+              16.2362,
+              15.9398
+            ],
+            "mean": 16.1373,
+            "sd": 0.171,
+            "t_crit_95": 4.3027,
+            "ci95_half": 0.4249,
+            "min": 15.9398,
+            "max": 16.2362
+          },
+          "prompt_tok_per_s_summary": {
+            "n": 3,
+            "values": [
+              45.5404,
+              43.4268,
+              41.8832
+            ],
+            "mean": 43.6168,
+            "sd": 1.836,
+            "t_crit_95": 4.3027,
+            "ci95_half": 4.5608,
+            "min": 41.8832,
+            "max": 45.5404
+          },
+          "total_draft_n": 429,
+          "total_draft_accepted": 417,
+          "mean_accept_rate": 0.97203,
+          "reps": [
+            {
+              "rep": 1,
+              "title": "1. Claude Code Python Refactoring (152-LOC File in Context)",
+              "predicted_n": 192,
+              "predicted_ms": 11764.06,
+              "tok_per_s": 16.2359,
+              "prompt_n": 1508,
+              "prompt_ms": 33113.42,
+              "prompt_tok_per_s": 45.5404,
+              "draft_n": 143,
+              "draft_n_accepted": 139,
+              "accept_rate": 0.97203
+            },
+            {
+              "rep": 2,
+              "title": "1. Claude Code Python Refactoring (152-LOC File in Context)",
+              "predicted_n": 192,
+              "predicted_ms": 11763.81,
+              "tok_per_s": 16.2362,
+              "prompt_n": 1508,
+              "prompt_ms": 34725.12,
+              "prompt_tok_per_s": 43.4268,
+              "draft_n": 143,
+              "draft_n_accepted": 139,
+              "accept_rate": 0.97203
+            },
+            {
+              "rep": 3,
+              "title": "1. Claude Code Python Refactoring (152-LOC File in Context)",
+              "predicted_n": 192,
+              "predicted_ms": 11982.59,
+              "tok_per_s": 15.9398,
+              "prompt_n": 1508,
+              "prompt_ms": 36004.87,
+              "prompt_tok_per_s": 41.8832,
+              "draft_n": 143,
+              "draft_n_accepted": 139,
+              "accept_rate": 0.97203
+            }
+          ]
+        },
+        "w2_claude_multitool_json": {
+          "title": "2. Claude Code Multi-Tool JSON / Patch Generation",
+          "tok_per_s_summary": {
+            "n": 3,
+            "values": [
+              8.4663,
+              7.0961,
+              8.3916
+            ],
+            "mean": 7.9847,
+            "sd": 0.7704,
+            "t_crit_95": 4.3027,
+            "ci95_half": 1.9138,
+            "min": 7.0961,
+            "max": 8.4663
+          },
+          "prompt_tok_per_s_summary": {
+            "n": 3,
+            "values": [
+              59.2238,
+              56.2462,
+              56.4335
+            ],
+            "mean": 57.3012,
+            "sd": 1.6677,
+            "t_crit_95": 4.3027,
+            "ci95_half": 4.1427,
+            "min": 56.2462,
+            "max": 59.2238
+          },
+          "total_draft_n": 153,
+          "total_draft_accepted": 117,
+          "mean_accept_rate": 0.76471,
+          "reps": [
+            {
+              "rep": 1,
+              "title": "2. Claude Code Multi-Tool JSON / Patch Generation",
+              "predicted_n": 192,
+              "predicted_ms": 22559.99,
+              "tok_per_s": 8.4663,
+              "prompt_n": 600,
+              "prompt_ms": 10131.06,
+              "prompt_tok_per_s": 59.2238,
+              "draft_n": 51,
+              "draft_n_accepted": 39,
+              "accept_rate": 0.76471
+            },
+            {
+              "rep": 2,
+              "title": "2. Claude Code Multi-Tool JSON / Patch Generation",
+              "predicted_n": 192,
+              "predicted_ms": 26916.33,
+              "tok_per_s": 7.0961,
+              "prompt_n": 600,
+              "prompt_ms": 10667.39,
+              "prompt_tok_per_s": 56.2462,
+              "draft_n": 51,
+              "draft_n_accepted": 39,
+              "accept_rate": 0.76471
+            },
+            {
+              "rep": 3,
+              "title": "2. Claude Code Multi-Tool JSON / Patch Generation",
+              "predicted_n": 192,
+              "predicted_ms": 22760.91,
+              "tok_per_s": 8.3916,
+              "prompt_n": 600,
+              "prompt_ms": 10631.99,
+              "prompt_tok_per_s": 56.4335,
+              "draft_n": 51,
+              "draft_n_accepted": 39,
+              "accept_rate": 0.76471
+            }
+          ]
+        },
+        "w3_greenfield_c99": {
+          "title": "3. Greenfield C99 Systems Implementation (Lock-Free SPSC Ring Buffer)",
+          "tok_per_s_summary": {
+            "n": 3,
+            "values": [
+              7.5231,
+              7.4916,
+              7.4648
+            ],
+            "mean": 7.4932,
+            "sd": 0.0292,
+            "t_crit_95": 4.3027,
+            "ci95_half": 0.0725,
+            "min": 7.4648,
+            "max": 7.5231
+          },
+          "prompt_tok_per_s_summary": {
+            "n": 3,
+            "values": [
+              52.7321,
+              51.6788,
+              53.0485
+            ],
+            "mean": 52.4865,
+            "sd": 0.7171,
+            "t_crit_95": 4.3027,
+            "ci95_half": 1.7814,
+            "min": 51.6788,
+            "max": 53.0485
+          },
+          "total_draft_n": 60,
+          "total_draft_accepted": 30,
+          "mean_accept_rate": 0.5,
+          "reps": [
+            {
+              "rep": 1,
+              "title": "3. Greenfield C99 Systems Implementation (Lock-Free SPSC Ring Buffer)",
+              "predicted_n": 192,
+              "predicted_ms": 25388.62,
+              "tok_per_s": 7.5231,
+              "prompt_n": 224,
+              "prompt_ms": 4247.88,
+              "prompt_tok_per_s": 52.7321,
+              "draft_n": 20,
+              "draft_n_accepted": 10,
+              "accept_rate": 0.5
+            },
+            {
+              "rep": 2,
+              "title": "3. Greenfield C99 Systems Implementation (Lock-Free SPSC Ring Buffer)",
+              "predicted_n": 192,
+              "predicted_ms": 25495.19,
+              "tok_per_s": 7.4916,
+              "prompt_n": 224,
+              "prompt_ms": 4334.46,
+              "prompt_tok_per_s": 51.6788,
+              "draft_n": 20,
+              "draft_n_accepted": 10,
+              "accept_rate": 0.5
+            },
+            {
+              "rep": 3,
+              "title": "3. Greenfield C99 Systems Implementation (Lock-Free SPSC Ring Buffer)",
+              "predicted_n": 192,
+              "predicted_ms": 25586.74,
+              "tok_per_s": 7.4648,
+              "prompt_n": 224,
+              "prompt_ms": 4222.55,
+              "prompt_tok_per_s": 53.0485,
+              "draft_n": 20,
+              "draft_n_accepted": 10,
+              "accept_rate": 0.5
+            }
+          ]
+        },
+        "w4_tech_prose_it_en": {
+          "title": "4. Technical Italian / English Architecture Prose",
+          "tok_per_s_summary": {
+            "n": 3,
+            "values": [
+              7.5944,
+              7.574,
+              7.5989
+            ],
+            "mean": 7.5891,
+            "sd": 0.0133,
+            "t_crit_95": 4.3027,
+            "ci95_half": 0.033,
+            "min": 7.574,
+            "max": 7.5989
+          },
+          "prompt_tok_per_s_summary": {
+            "n": 3,
+            "values": [
+              49.1501,
+              42.0122,
+              49.551
+            ],
+            "mean": 46.9044,
+            "sd": 4.2415,
+            "t_crit_95": 4.3027,
+            "ci95_half": 10.5366,
+            "min": 42.0122,
+            "max": 49.551
+          },
+          "total_draft_n": 51,
+          "total_draft_accepted": 36,
+          "mean_accept_rate": 0.70588,
+          "reps": [
+            {
+              "rep": 1,
+              "title": "4. Technical Italian / English Architecture Prose",
+              "predicted_n": 192,
+              "predicted_ms": 25150.11,
+              "tok_per_s": 7.5944,
+              "prompt_n": 159,
+              "prompt_ms": 3234.99,
+              "prompt_tok_per_s": 49.1501,
+              "draft_n": 17,
+              "draft_n_accepted": 12,
+              "accept_rate": 0.70588
+            },
+            {
+              "rep": 2,
+              "title": "4. Technical Italian / English Architecture Prose",
+              "predicted_n": 192,
+              "predicted_ms": 25217.71,
+              "tok_per_s": 7.574,
+              "prompt_n": 159,
+              "prompt_ms": 3784.62,
+              "prompt_tok_per_s": 42.0122,
+              "draft_n": 17,
+              "draft_n_accepted": 12,
+              "accept_rate": 0.70588
+            },
+            {
+              "rep": 3,
+              "title": "4. Technical Italian / English Architecture Prose",
+              "predicted_n": 192,
+              "predicted_ms": 25135.35,
+              "tok_per_s": 7.5989,
+              "prompt_n": 159,
+              "prompt_ms": 3208.81,
+              "prompt_tok_per_s": 49.551,
+              "draft_n": 17,
+              "draft_n_accepted": 12,
+              "accept_rate": 0.70588
+            }
+          ]
+        }
+      }
+    },
+    "config1_pure_n1": {
+      "config_name": "config1_pure_n1",
+      "spec_args": [
+        "--spec-type",
+        "none"
+      ],
+      "n_reps": 3,
+      "independent_cold_restarts": true,
+      "host_drop_caches_before_each_rep": true,
+      "aggregate_tok_per_s_summary": {
+        "n": 3,
+        "values": [
+          7.6883,
+          7.6731,
+          7.6908
+        ],
+        "mean": 7.6841,
+        "sd": 0.0096,
+        "t_crit_95": 4.3027,
+        "ci95_half": 0.0238,
+        "min": 7.6731,
+        "max": 7.6908
+      },
+      "max_vmhwm_gib": 59.7313,
+      "max_cgroup_memory_peak_gib": 60.0,
+      "max_cgroup_swap_peak_bytes": 0,
+      "total_oom_kills": 0,
+      "per_rep_memory": [
+        {
+          "rep": 1,
+          "cached_gib_before_load": 0.3,
+          "load_time_s": 38.08,
+          "process_memory": {
+            "vmhwm_kb": 62630248,
+            "vmhwm_gib": 59.7289,
+            "vmrss_kb": 60605600,
+            "vmrss_gib": 57.798,
+            "rssanon_kb": 2346324,
+            "rssanon_gib": 2.2376,
+            "rssfile_kb": 58259276,
+            "rssfile_gib": 55.5604,
+            "rssshmem_kb": 0,
+            "rssshmem_gib": 0.0,
+            "vmswap_kb": 0,
+            "vmswap_gib": 0.0
+          },
+          "cgroup_v2": {
+            "cgroup_path": "/system.slice/run-r82bfd29a25b54acbab74b1f10e7d7c51.scope",
+            "memory_max": 64424509440,
+            "memory_max_gib": 60.0,
+            "memory_peak": 64424509440,
+            "memory_peak_gib": 60.0,
+            "memory_current": 64034127872,
+            "memory_current_gib": 59.6364,
+            "memory_swap_max": 0,
+            "memory_swap_max_gib": 0.0,
+            "memory_swap_peak": 0,
+            "memory_swap_peak_gib": 0.0,
+            "memory_events": {
+              "low": 0,
+              "high": 0,
+              "max": 23,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "memory_stat": {
+              "anon": 2415411200,
+              "file": 61343277056,
+              "file_mapped": 59656302592,
+              "inactive_file": 28006985728,
+              "active_file": 33336287232,
+              "workingset_refault_file": 8050228,
+              "pgscan": 23542698,
+              "pgsteal": 8279358,
+              "pgfault": 16508890,
+              "pgmajfault": 15230364,
+              "anon_gib": 2.2495,
+              "file_gib": 57.1304,
+              "file_mapped_gib": 55.5593
+            }
+          }
+        },
+        {
+          "rep": 2,
+          "cached_gib_before_load": 0.3,
+          "load_time_s": 37.58,
+          "process_memory": {
+            "vmhwm_kb": 62632828,
+            "vmhwm_gib": 59.7313,
+            "vmrss_kb": 62169340,
+            "vmrss_gib": 59.2893,
+            "rssanon_kb": 2345768,
+            "rssanon_gib": 2.2371,
+            "rssfile_kb": 59823572,
+            "rssfile_gib": 57.0522,
+            "rssshmem_kb": 0,
+            "rssshmem_gib": 0.0,
+            "vmswap_kb": 0,
+            "vmswap_gib": 0.0
+          },
+          "cgroup_v2": {
+            "cgroup_path": "/system.slice/run-rcc5a4da15e6e4581b83a90c5fdcae290.scope",
+            "memory_max": 64424509440,
+            "memory_max_gib": 60.0,
+            "memory_peak": 64424509440,
+            "memory_peak_gib": 60.0,
+            "memory_current": 64422690816,
+            "memory_current_gib": 59.9983,
+            "memory_swap_max": 0,
+            "memory_swap_max_gib": 0.0,
+            "memory_swap_peak": 0,
+            "memory_swap_peak_gib": 0.0,
+            "memory_events": {
+              "low": 0,
+              "high": 0,
+              "max": 393,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "memory_stat": {
+              "anon": 2414837760,
+              "file": 61733507072,
+              "file_mapped": 61257453568,
+              "inactive_file": 51939393536,
+              "active_file": 9793327104,
+              "workingset_refault_file": 632181,
+              "pgscan": 2387421,
+              "pgsteal": 766040,
+              "pgfault": 15382578,
+              "pgmajfault": 15211225,
+              "anon_gib": 2.249,
+              "file_gib": 57.4938,
+              "file_mapped_gib": 57.0504
+            }
+          }
+        },
+        {
+          "rep": 3,
+          "cached_gib_before_load": 0.3,
+          "load_time_s": 37.57,
+          "process_memory": {
+            "vmhwm_kb": 62631392,
+            "vmhwm_gib": 59.7299,
+            "vmrss_kb": 60672588,
+            "vmrss_gib": 57.8619,
+            "rssanon_kb": 2346080,
+            "rssanon_gib": 2.2374,
+            "rssfile_kb": 58326508,
+            "rssfile_gib": 55.6245,
+            "rssshmem_kb": 0,
+            "rssshmem_gib": 0.0,
+            "vmswap_kb": 0,
+            "vmswap_gib": 0.0
+          },
+          "cgroup_v2": {
+            "cgroup_path": "/system.slice/run-rf3577b6e351e4615b33f0af2047675c2.scope",
+            "memory_max": 64424509440,
+            "memory_max_gib": 60.0,
+            "memory_peak": 64424509440,
+            "memory_peak_gib": 60.0,
+            "memory_current": 64073691136,
+            "memory_current_gib": 59.6733,
+            "memory_swap_max": 0,
+            "memory_swap_max_gib": 0.0,
+            "memory_swap_peak": 0,
+            "memory_swap_peak_gib": 0.0,
+            "memory_events": {
+              "low": 0,
+              "high": 0,
+              "max": 3,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "memory_stat": {
+              "anon": 2415157248,
+              "file": 61384445952,
+              "file_mapped": 59718828032,
+              "inactive_file": 29405818880,
+              "active_file": 31978369024,
+              "workingset_refault_file": 7135720,
+              "pgscan": 7854589,
+              "pgsteal": 7354799,
+              "pgfault": 16331260,
+              "pgmajfault": 15229485,
+              "anon_gib": 2.2493,
+              "file_gib": 57.1687,
+              "file_mapped_gib": 55.6175
+            }
+          }
+        }
+      ],
+      "workloads": {
+        "w1_claude_refactor": {
+          "title": "1. Claude Code Python Refactoring (152-LOC File in Context)",
+          "tok_per_s_summary": {
+            "n": 3,
+            "values": [
+              7.4966,
+              7.4778,
+              7.5173
+            ],
+            "mean": 7.4972,
+            "sd": 0.0198,
+            "t_crit_95": 4.3027,
+            "ci95_half": 0.0491,
+            "min": 7.4778,
+            "max": 7.5173
+          },
+          "prompt_tok_per_s_summary": {
+            "n": 3,
+            "values": [
+              36.3386,
+              54.6182,
+              40.851
+            ],
+            "mean": 43.9359,
+            "sd": 9.5223,
+            "t_crit_95": 4.3027,
+            "ci95_half": 23.6546,
+            "min": 36.3386,
+            "max": 54.6182
+          },
+          "total_draft_n": 0,
+          "total_draft_accepted": 0,
+          "mean_accept_rate": 0.0,
+          "reps": [
+            {
+              "rep": 1,
+              "title": "1. Claude Code Python Refactoring (152-LOC File in Context)",
+              "predicted_n": 192,
+              "predicted_ms": 25478.36,
+              "tok_per_s": 7.4966,
+              "prompt_n": 1508,
+              "prompt_ms": 41498.6,
+              "prompt_tok_per_s": 36.3386,
+              "draft_n": 0,
+              "draft_n_accepted": 0,
+              "accept_rate": 0.0
+            },
+            {
+              "rep": 2,
+              "title": "1. Claude Code Python Refactoring (152-LOC File in Context)",
+              "predicted_n": 192,
+              "predicted_ms": 25542.4,
+              "tok_per_s": 7.4778,
+              "prompt_n": 1508,
+              "prompt_ms": 27609.84,
+              "prompt_tok_per_s": 54.6182,
+              "draft_n": 0,
+              "draft_n_accepted": 0,
+              "accept_rate": 0.0
+            },
+            {
+              "rep": 3,
+              "title": "1. Claude Code Python Refactoring (152-LOC File in Context)",
+              "predicted_n": 192,
+              "predicted_ms": 25407.96,
+              "tok_per_s": 7.5173,
+              "prompt_n": 1508,
+              "prompt_ms": 36914.66,
+              "prompt_tok_per_s": 40.851,
+              "draft_n": 0,
+              "draft_n_accepted": 0,
+              "accept_rate": 0.0
+            }
+          ]
+        },
+        "w2_claude_multitool_json": {
+          "title": "2. Claude Code Multi-Tool JSON / Patch Generation",
+          "tok_per_s_summary": {
+            "n": 3,
+            "values": [
+              7.6364,
+              7.6219,
+              7.6354
+            ],
+            "mean": 7.6312,
+            "sd": 0.0081,
+            "t_crit_95": 4.3027,
+            "ci95_half": 0.0201,
+            "min": 7.6219,
+            "max": 7.6364
+          },
+          "prompt_tok_per_s_summary": {
+            "n": 3,
+            "values": [
+              56.8622,
+              56.2545,
+              56.8051
+            ],
+            "mean": 56.6406,
+            "sd": 0.3356,
+            "t_crit_95": 4.3027,
+            "ci95_half": 0.8336,
+            "min": 56.2545,
+            "max": 56.8622
+          },
+          "total_draft_n": 0,
+          "total_draft_accepted": 0,
+          "mean_accept_rate": 0.0,
+          "reps": [
+            {
+              "rep": 1,
+              "title": "2. Claude Code Multi-Tool JSON / Patch Generation",
+              "predicted_n": 192,
+              "predicted_ms": 25011.67,
+              "tok_per_s": 7.6364,
+              "prompt_n": 600,
+              "prompt_ms": 10551.83,
+              "prompt_tok_per_s": 56.8622,
+              "draft_n": 0,
+              "draft_n_accepted": 0,
+              "accept_rate": 0.0
+            },
+            {
+              "rep": 2,
+              "title": "2. Claude Code Multi-Tool JSON / Patch Generation",
+              "predicted_n": 192,
+              "predicted_ms": 25059.27,
+              "tok_per_s": 7.6219,
+              "prompt_n": 600,
+              "prompt_ms": 10665.82,
+              "prompt_tok_per_s": 56.2545,
+              "draft_n": 0,
+              "draft_n_accepted": 0,
+              "accept_rate": 0.0
+            },
+            {
+              "rep": 3,
+              "title": "2. Claude Code Multi-Tool JSON / Patch Generation",
+              "predicted_n": 192,
+              "predicted_ms": 25014.91,
+              "tok_per_s": 7.6354,
+              "prompt_n": 600,
+              "prompt_ms": 10562.42,
+              "prompt_tok_per_s": 56.8051,
+              "draft_n": 0,
+              "draft_n_accepted": 0,
+              "accept_rate": 0.0
+            }
+          ]
+        },
+        "w3_greenfield_c99": {
+          "title": "3. Greenfield C99 Systems Implementation (Lock-Free SPSC Ring Buffer)",
+          "tok_per_s_summary": {
+            "n": 3,
+            "values": [
+              7.7294,
+              7.7082,
+              7.7217
+            ],
+            "mean": 7.7198,
+            "sd": 0.0107,
+            "t_crit_95": 4.3027,
+            "ci95_half": 0.0267,
+            "min": 7.7082,
+            "max": 7.7294
+          },
+          "prompt_tok_per_s_summary": {
+            "n": 3,
+            "values": [
+              53.4525,
+              51.3355,
+              53.9042
+            ],
+            "mean": 52.8974,
+            "sd": 1.3714,
+            "t_crit_95": 4.3027,
+            "ci95_half": 3.4067,
+            "min": 51.3355,
+            "max": 53.9042
+          },
+          "total_draft_n": 0,
+          "total_draft_accepted": 0,
+          "mean_accept_rate": 0.0,
+          "reps": [
+            {
+              "rep": 1,
+              "title": "3. Greenfield C99 Systems Implementation (Lock-Free SPSC Ring Buffer)",
+              "predicted_n": 192,
+              "predicted_ms": 24710.92,
+              "tok_per_s": 7.7294,
+              "prompt_n": 224,
+              "prompt_ms": 4190.63,
+              "prompt_tok_per_s": 53.4525,
+              "draft_n": 0,
+              "draft_n_accepted": 0,
+              "accept_rate": 0.0
+            },
+            {
+              "rep": 2,
+              "title": "3. Greenfield C99 Systems Implementation (Lock-Free SPSC Ring Buffer)",
+              "predicted_n": 192,
+              "predicted_ms": 24778.82,
+              "tok_per_s": 7.7082,
+              "prompt_n": 224,
+              "prompt_ms": 4363.45,
+              "prompt_tok_per_s": 51.3355,
+              "draft_n": 0,
+              "draft_n_accepted": 0,
+              "accept_rate": 0.0
+            },
+            {
+              "rep": 3,
+              "title": "3. Greenfield C99 Systems Implementation (Lock-Free SPSC Ring Buffer)",
+              "predicted_n": 192,
+              "predicted_ms": 24735.54,
+              "tok_per_s": 7.7217,
+              "prompt_n": 224,
+              "prompt_ms": 4155.52,
+              "prompt_tok_per_s": 53.9042,
+              "draft_n": 0,
+              "draft_n_accepted": 0,
+              "accept_rate": 0.0
+            }
+          ]
+        },
+        "w4_tech_prose_it_en": {
+          "title": "4. Technical Italian / English Architecture Prose",
+          "tok_per_s_summary": {
+            "n": 3,
+            "values": [
+              7.7357,
+              7.73,
+              7.7326
+            ],
+            "mean": 7.7328,
+            "sd": 0.0029,
+            "t_crit_95": 4.3027,
+            "ci95_half": 0.0071,
+            "min": 7.73,
+            "max": 7.7357
+          },
+          "prompt_tok_per_s_summary": {
+            "n": 3,
+            "values": [
+              49.5393,
+              48.0485,
+              50.1931
+            ],
+            "mean": 49.2603,
+            "sd": 1.0992,
+            "t_crit_95": 4.3027,
+            "ci95_half": 2.7305,
+            "min": 48.0485,
+            "max": 50.1931
+          },
+          "total_draft_n": 0,
+          "total_draft_accepted": 0,
+          "mean_accept_rate": 0.0,
+          "reps": [
+            {
+              "rep": 1,
+              "title": "4. Technical Italian / English Architecture Prose",
+              "predicted_n": 192,
+              "predicted_ms": 24690.65,
+              "tok_per_s": 7.7357,
+              "prompt_n": 159,
+              "prompt_ms": 3209.57,
+              "prompt_tok_per_s": 49.5393,
+              "draft_n": 0,
+              "draft_n_accepted": 0,
+              "accept_rate": 0.0
+            },
+            {
+              "rep": 2,
+              "title": "4. Technical Italian / English Architecture Prose",
+              "predicted_n": 192,
+              "predicted_ms": 24709.02,
+              "tok_per_s": 7.73,
+              "prompt_n": 159,
+              "prompt_ms": 3309.16,
+              "prompt_tok_per_s": 48.0485,
+              "draft_n": 0,
+              "draft_n_accepted": 0,
+              "accept_rate": 0.0
+            },
+            {
+              "rep": 3,
+              "title": "4. Technical Italian / English Architecture Prose",
+              "predicted_n": 192,
+              "predicted_ms": 24700.58,
+              "tok_per_s": 7.7326,
+              "prompt_n": 159,
+              "prompt_ms": 3167.77,
+              "prompt_tok_per_s": 50.1931,
+              "draft_n": 0,
+              "draft_n_accepted": 0,
+              "accept_rate": 0.0
+            }
+          ]
+        }
+      }
+    }
+  }
+}

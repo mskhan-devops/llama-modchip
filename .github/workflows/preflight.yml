@@ -1,0 +1,24 @@
+name: Release Preflight Gate
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+    tags: ["v*"]
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install poppler-utils (pdftotext) and g++ for PDF & C++ ASan/UBSan checks
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils g++ && python3 -m pip install numpy
+      - name: Run Mandatory Preflight Gate (with Multi-ISA C++ ASan/UBSan)
+        run: python3 scripts/preflight_release_check.py --strict --run-cpp-tests
+      - name: Verify Dual-Mirror Artifacts on Release Tags
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: python3 scripts/preflight_release_check.py --strict --verify-remote

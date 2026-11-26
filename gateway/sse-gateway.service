@@ -1,0 +1,21 @@
+[Unit]
+Description=llama-modchip v3.1.0 Multi-Model & HARP-Cache SSE Gateway (Port 8787)
+After=network.target nemotron-256k.service
+Wants=nemotron-256k.service
+
+[Service]
+Type=simple
+User=llama
+Group=llama
+# Replace /opt/llama-modchip with your actual clone directory before enabling
+WorkingDirectory=/opt/llama-modchip
+Environment="GATEWAY_HOST=127.0.0.1" "GATEWAY_PORT=8787" "LLAMA_BACKEND_URL=http://127.0.0.1:8789"
+ExecStart=/usr/bin/python3 -u gateway/sse_gateway.py 8787
+NoNewPrivileges=yes
+ProtectSystem=strict
+PrivateTmp=yes
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

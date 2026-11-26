@@ -1,0 +1,26 @@
+# Model: Synchopate/DeepSeek-V4-Flash-0731-MaxQ-Fractal-64GB-CPU-GGUF (v2.5.3 donor-free single-pass 0731)
+# Shard-1 SHA256: 0ae64076077f88f5750d7e78403bbf0304a386c86912a47655eb3aaf627d2ce4 (5257952 B)
+# Shard-2 SHA256: 155fc6c239969ed2c470c6a7b9c474bc0c17922980e8111f614c88dd65e63aa5 (36817932704 B)
+# Shard-3 SHA256: 15f2e256b9b1c3e106a52ddc2e093f2264571ffdbce3ba0010f54f9ecce57252 (24306173504 B)
+[RouteCrack+Stockfish-PVS] Initialized: 0 cascade tables, 0 hot rules, 0 macro entries, 1 warm trie nodes, 192KB L2 Zobrist TT
+[GGML-MODCHIP] Full 256K Global Attention ACTIVE: Window=FULL, L3 NTA Window=2048
+0.40.740.684 I 
+0.40.741.104 I system_info: n_threads = 16 (n_threads_batch = 16) / 32 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | AVX512 = 1 | AVX512_VBMI = 1 | AVX512_VNNI = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.40.741.109 I perplexity: tokenizing the input ..
+0.41.239.361 I perplexity: tokenization took 498.242 ms
+0.41.239.534 I perplexity: calculating perplexity over 51 chunks, n_ctx=5632, batch_size=5632, n_seq=1
+3.07.580.074 I perplexity: 146.34 seconds per pass - ETA 2 hours 4.38 minutes
+       0  8.8816  2.183986  0.049360
+    5632  7.3944  2.000725  0.035352
+   11264  6.8776  1.928277  0.028364
+   16896  6.9616  1.940413  0.024500
+   22528  7.1640  1.969075  0.021953
+   28160  7.2741  1.984318  0.019815
+   33792  7.0289  1.950023  0.018468
+   39424  7.1231  1.963343  0.017293
+   45056  7.2913  1.986688  0.016367
+   50688  7.5528  2.021914  0.015645
+   56320  7.3670  1.997009  0.014871
+   61952  7.3180  1.990338  0.014197
+
+# Extracted cumulative chunk 1..12 prefix from atomicchat_wikialt_ctx5632_51c_dsv4_maxq_fractal.log: PPL = 7.3180 +/- 0.10389

@@ -1,0 +1,89 @@
+[Unit]
+Description=Nemotron 3.5 Lightning 30B MoE (256k Context, Dual-CCD 64MB L3 NTA Slicing, 16 Physical Zen 5 Cores, Port 8789)
+After=network.target
+
+[Service]
+Type=simple
+# Run as an unprivileged service account (create via: sudo useradd -r -s /usr/sbin/nologin llama)
+# /dev/shm is world-writable (1777) by default; THP is configured host-wide via systemd/thp-llm.conf.
+User=llama
+Group=llama
+
+# Pin strictly to the 16 physical Zen 5 cores (excluding SMT siblings 16-31).
+# Verify your CPU's non-SMT physical core IDs via: python3 scripts/check_cpu_readiness.py
+CPUAffinity=0-15
+
+# Runtime Environment Variables (verified against patches/llama-modchip-v3.2.patch):
+# - LLAMA_MOE_TOP_K=4           : Norm-preserving active-expert pruning override (reduces Nemotron 3.5
+#                                 routed experts from 6 -> 4, and Qwen3-30B-A3B from 8 -> 4; surviving
+#                                 4 gates are automatically renormalized via expert_weights_norm=True).
+#                                 Set LLAMA_MOE_TOP_K=6 (or omit) for unpruned 6/128 expert fidelity.
+# - LLAMA_ATTN_WINDOW=0         : Default Mode A (Full 256K Exact Global GQA across all 262,144 tokens,
+#                                 relying on LLAMA_KV_L3_WINDOW=2048 _MM_HINT_NTA streaming so cold KV
+#                                 sweeps never evict L3). Set LLAMA_ATTN_WINDOW=4096 (Mode B below) for
+#                                 Ultra-Low-Latency SWA-4096 + 16 Attention Sinks + 23 Mamba-2 SSM layers.
+# - LLAMA_KV_L3_WINDOW=2048     : Boundary in ggml-cpu/ops.cpp between _MM_HINT_T0 (L3-resident hot KV)
+#                                 and _MM_HINT_NTA (non-temporal L3-bypass streaming for older KV blocks).
+# - LLAMA_SWA_STRIDE=1          : When LLAMA_ATTN_WINDOW > 0, apply SWA to all 6 GQA layers on Hybrid SSM
+#                                 models (23 Mamba-2 SSM + 23 MoE blocks carry global state). Pure GQA models
+#                                 auto-lock to LLAMA_SWA_STRIDE=4 (3:1 Interleaved SWA).
+# - LLAMA_KV_DISABLE_CHUNKING=1 : Static per-head GQA partitioning across CCDs (eliminates cross-CCD snoops).
+# - RC_TABLES_DIR               : Directory containing RouteCrack offline cascade tables (hc_top4_k*.bin,
+#                                 hot_rules.bin, macro_codebook.bin, corpus_nemotron_warm.bin).
+# - OMP_PROC_BIND=close         : Welds each OpenMP worker thread 1:1 to its assigned physical core.
+
+# Mode A (Active Default): Full 256K Exact Global GQA Attention (Unpruned Top-6, NTA Streaming + 2048-token L3 Hot Window)
+Environment="LLAMA_KV_L3_WINDOW=2048" "LLAMA_ATTN_WINDOW=0" "LLAMA_ATTN_SINKS=16" "LLAMA_SWA_STRIDE=1" "LLAMA_KV_DISABLE_CHUNKING=1" "LLAMA_RC_ENABLED=1" "LLAMA_RC_CERT_D0=84" "LLAMA_RC_CERT_D1=92" "LLAMA_RC_CERT_D2=96" "RC_TABLES_DIR=/var/lib/llama-modchip/routecrack" "OMP_PROC_BIND=close" "OMP_PLACES=cores"
+
+# Mode B (Optional): Ultra-Low-Latency SWA-4096 + 16 Sinks (100% L3-Resident 6.3 MB GQA + 23 Mamba-2 Global SSM Layers)
+# Environment="LLAMA_KV_L3_WINDOW=2048" "LLAMA_ATTN_WINDOW=4096" "LLAMA_ATTN_SINKS=16" "LLAMA_SWA_STRIDE=1" "LLAMA_KV_DISABLE_CHUNKING=1" "LLAMA_RC_ENABLED=1" "LLAMA_RC_CERT_D0=84" "LLAMA_RC_CERT_D1=92" "LLAMA_RC_CERT_D2=96" "RC_TABLES_DIR=/var/lib/llama-modchip/routecrack" "OMP_PROC_BIND=close" "OMP_PLACES=cores"
+
+# Note on --spec-type routecrack2:
+# RouteCrack 2.0 unites RCPredictor (8-level FNV-64 cascade + MacroCodebook + Online Trie v2 + PPM + Skipgram),
+# O(1) Indexed Two-Zone 40K Suffix Copy, Stockfish-PVS Zobrist TT + 28-bit mode refutation, and the
+# RouteCrack 2.0 L1 Micro-Arbiter (< 200 ns/step, zero neural draft model overhead).
+# (--spec-type ngram-map-k and --spec-type ngram-simple remain supported for backward compatibility.)
+#
+# Threading: use non-convoy physical_cores - 1 (e.g., -t 15 -tb 15 on 16-core Zen 5) with --poll 0 --poll-batch 0
+# so OS / HTTP threads never preempt OpenMP barrier workers.
+#
+# Drop-in examples for other v3.2.0 model families (override ExecStart + Environment via `systemctl edit`):
+# - Qwen3.8-Flash-Next MaxQ-64GB / 32GB (set RC_TABLES_DIR=/nonexistent):
+#     --model /var/lib/llama-modchip/models/Qwen3.8-Flash-Next-MaxQ-64GB-00001-of-00002.gguf \
+#     -c 32768 -t 15 -tb 15 --poll 0 --poll-batch 0 --load-mode mmap --flash-attn on \
+#     --cache-type-k q8_0 --cache-type-v q8_0 --repack --jinja --ctx-checkpoints 1 --spec-type routecrack2
+# - DeepSeek-V4-Flash 284B MaxQ-v4 (set RC_TABLES_DIR=/nonexistent):
+#     --model /var/lib/llama-modchip/models/DeepSeek-V4-Flash-0731-MaxQ-v4-00001-of-00003.gguf \
+#     -c 32768 -t 15 -tb 15 --poll 0 --poll-batch 0 --load-mode none --flash-attn on \
+#     --cache-type-k q8_0 --cache-type-v q8_0 --repack --jinja --ctx-checkpoints 64 --spec-type routecrack2
+ExecStart=/usr/local/bin/llama-server \
+  --model /var/lib/llama-modchip/models/NVIDIA-Nemotron-3.5-30B-A3B-VQ3-64.gguf \
+  --port 8789 \
+  --host 127.0.0.1 \
+  --no-webui \
+  --offline \
+  -c 262144 \
+  -np 1 \
+  -b 2048 \
+  -ub 2048 \
+  -t 15 \
+  -tb 15 \
+  --poll 0 \
+  --poll-batch 0 \
+  --cache-type-k q8_0 \
+  --cache-type-v q4_0 \
+  --repack \
+  --flash-attn auto \
+  --load-mode none \
+  --cache-reuse 256 \
+  --slot-save-path /dev/shm \
+  --ctx-checkpoints 64 \
+  --checkpoint-min-step 128 \
+  --spec-type routecrack2 \
+  --reasoning-format deepseek \
+  --reasoning-budget 0
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,52 @@
+name: "🐛 Bug Report"
+description: "Report a crash, build failure, quantization/ABI issue, or RouteCrack 2.0 regression in llama-modchip"
+title: "[Bug] <short description>"
+labels: ["bug"]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: "llama-modchip Version / Commit"
+      description: "Output of `git rev-parse --short HEAD` or release tag"
+      placeholder: "v3.2.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: "Platform & Build Type"
+      options:
+        - "Linux x86-64 (Prebuilt AVX-512 binary)"
+        - "Linux x86-64 (Prebuilt AVX2 binary)"
+        - "Linux x86-64 (Compiled from source)"
+        - "Linux ARM64 (Compiled from source)"
+        - "macOS Apple Silicon (Metal / NEON)"
+        - "Windows 10/11 (MinGW / MSVC / CUDA)"
+    validations:
+      required: true
+
+  - type: input
+    id: model_preset
+    attributes:
+      label: "Model Preset / GGUF"
+      placeholder: "qwen38-64gb / dsv4-maxq-v4 / nemotron-vq3 / nemotron-maxq-16gb"
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: "Steps to Reproduce & Exact Command"
+      description: "Include the exact `./install.sh`, `./modchip`, or `llama-server` command."
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: "Error Output / Diagnostics"
+      description: "Paste logs plus `python3 scripts/check_cpu_readiness.py --no-bench` output if relevant."
+      render: shell
+    validations:
+      required: true
